@@ -1,0 +1,50 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch XMC7100D CM7 (JLink)",
+      "type": "cortex-debug",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "executable": "${workspaceRoot}/rt-thread.elf",
+      "servertype": "jlink",
+      "device": "XMC7100-4160_CM7_0_tm",
+      "interface": "swd",
+      "serialNumber": "",
+      "preLaunchCommands": [
+        "exec-file rt-thread.hex"
+      ],
+      "overrideRestartCommands": [
+        "starti"
+      ],
+      "svdFile": "${workspaceRoot}/libs/cat1c4m.svd",
+      "breakAfterReset": true,
+      "runToEntryPoint": "main",
+      "showDevDebugOutput": "none",
+      "presentation": {
+        "hidden": false,
+        "group": "CM7"
+      },
+      "serverpath": "C:/Program Files/SEGGER/JLink_V820/JLinkGDBServerCL.exe"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Users/32272/Documents/bechlor/code/RTT/rt-thread-master1/rt-thread-master/bsp/Infineon/xmc7100d-f144k4160aa/applications",
+      "program": "c:/Users/32272/Documents/bechlor/code/RTT/rt-thread-master1/rt-thread-master/bsp/Infineon/xmc7100d-f144k4160aa/applications/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}

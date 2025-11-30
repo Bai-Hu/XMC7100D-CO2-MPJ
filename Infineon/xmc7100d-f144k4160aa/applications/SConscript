@@ -1,0 +1,39 @@
+import rtconfig
+from building import *
+import os
+
+cwd  = GetCurrentDir()
+path = [cwd]
+src  = []
+
+# STEP 1: Add Modbus RTU基础层
+# Include main.c and Modbus RTU files for basic UART communication
+# Note: modbus_rtu_write.c excluded - functions already in modbus_rtu.c
+src = ['main.c', 'modbus_rtu.c']
+
+# STEP 2: Add S8 CO2传感器核心文件
+# Add S8 sensor driver, MSH commands, CO2 monitor, and self-test
+# Debug files excluded but preserved for future use
+src += ['s8_sensor.c', 's8_msh.c', 'co2_monitor.c', 's8_self_test.c']
+
+# STEP 3: Add TF Card驱动
+# Add TF card driver and MSH commands for data logging
+if GetDepend(['BSP_USING_TF_CARD']):
+    src += ['tf_card.c', 'tf_msh.c', 'nvs_state.c']
+
+# STEP 4: Add RTC驱动
+# Add RTC MSH commands for time management
+if GetDepend(['BSP_USING_RTC']):
+    src += ['rtc_msh.c']
+
+if GetDepend(['PKG_USING_RTDUINO']) and not GetDepend(['RTDUINO_NO_SETUP_LOOP']):
+    src += ['arduino_main.cpp']
+
+group = DefineGroup('Applications', src, depend = [''], CPPPATH = path)
+
+list = os.listdir(cwd)
+for item in list:
+    if os.path.isfile(os.path.join(cwd, item, 'SConscript')):
+        group = group + SConscript(os.path.join(item, 'SConscript'))
+
+Return('group')
